@@ -1,0 +1,4 @@
+Originally copied from https://gitlab.com/KoO-i3/mx-conky-data/-/blob/82e4cdfa5ea7c9adc0164d63bcde0eb63bc2a75c/MX-MyConky/MySysInfoConky
+
+Now modified to my requirements at:https://github.com/DurhamDecLab/MyConky
+

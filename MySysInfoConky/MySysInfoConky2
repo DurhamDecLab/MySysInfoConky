@@ -1,0 +1,124 @@
+
+double_buffer yes
+update_interval 2
+background yes
+
+own_window yes
+
+# own_window_type desktop
+own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+#own_window_type override
+own_window_argb_visual yes
+own_window_argb_value 0
+out_to_console no
+own_window_transparent yes
+own_window_class conky-semi
+use_xft yes
+xftfont cure:size=10
+
+#use_xft yes
+#xftfont Sansation:size=9
+xftfont Rounded Elegance:size=10
+xftalpha 0
+update_interval 2
+cpu_avg_samples 2
+net_avg_samples 2
+double_buffer yes
+maximum_width 320
+draw_shades no
+draw_outline no
+draw_borders no
+draw_graph_borders no
+stippled_borders 1
+border_width 0
+default_color white
+default_shade_color white
+default_outline_color white
+default_graph_size 150 50
+alignment top_right
+
+use_spacer left
+no_buffers yes
+uppercase no
+
+color0 white
+color1 green
+color2 white
+color3 1793d0
+
+
+pad_percents 2
+top_name_width 7
+minimum_size 320 610
+
+gap_x 60
+gap_y 30
+
+
+own_window_colour 000000
+TEXT
+#-----------------------System information-----------------------
+${font Good Times:size=12}${color Tan1}SYSTEM INFORMATION ${color}${hr 2}${font}
+ ${font}${color}${execi 18000 cat /etc/os-release | grep 'PRETTY' | cut -d '"' -f2} ${image /home/paul/.conky/MyConky/img/logo-gentoo.png -p 220,30 -s 80x60 -f 86400}
+ Kernel: $kernel $machine
+ ${time %a %d %b %Y - %H:%M}
+ Uptime: ${color3}${uptime}${color}
+
+#-----------------------CPU-----------------------
+${font Good Times:size=12}${color Tan1}CPU ${color}${hr 2}${font}
+${font}${color}${execi 36000 cat /proc/cpuinfo | grep "model name" | head -1 | cut -d ":" -f2}
+#${execi 36000 cat /proc/cpuinfo | grep "model name" | head -1 | cut -d ":" -f2}
+ ${color lightgrey}Temperature: ${color3}${execi 5 sensors | grep "CPU Temperature" | cut -d "+" -f2 | cut -c1-4}${font} °C
+ ${color}Fan speed: ${color3}${execi 5 sensors | grep "CPU FAN" | cut -d ":" -f2 | cut -c6-13}
+ ${color}Vcore: ${color3}${execi 5 sensors | grep "Vcore" | cut -d ":" -f2 | cut -c6-14}
+ ${color}Clock: ${color3}${freq 0} / ${freq 1} MHz${color}
+ Load: ${color3}${cpu cpu0}% ${cpu cpu1}%  ${color}
+${goto 10}${cpugraph cpu0  25,150 000000 FFBF00}${goto 170}${cpugraph cpu1 25,150 000000 00FF00}$
+
+#-----------------------MOBO-----------------------
+${font Good Times:size=12}${color Tan1}MOBO ${color}${hr 2}${font}
+ ${color lightgrey}Temperature: ${color3}${execi 5 sensors | grep "MB" | cut -d "+" -f2 | cut -c1-7}${font} ${alignr} ${color}12V: ${color3}${execi 5 sensors | grep "+12 " | cut -d ":" -f2 | cut -c8-14}
+ ${color}5V: ${color3}${execi 5 sensors | grep "+5 " | cut -d ":" -f2 | cut -c8-15} ${alignr}${color}3.3V: ${color3}${execi 5 sensors | grep "+3.3 " | cut -d ":" -f2 | cut -c8-14}
+ ${color}Fan speed: ${color3}${execi 5 sensors | grep "POWER FAN" | cut -d ":" -f2 | cut -c4-13}
+
+#-----------------------Disk-----------------------
+${font Good Times:size=12}${color Tan1}DISK ${color}${hr 2}${font}
+ ${color}/: ${color3}${diskio sda} ${color} ${alignr}SLOW: ${color3}${diskio sdb}
+${execi 30 sudo hddtemp /dev/sda | cut -d ":" -f3} ${alignr}${execi 30 sudo hddtemp /dev/sdb | cut -d ":" -f3}
+
+#-----------------------Memory Load-----------------------
+${font Good Times:size=12}${color Tan1}MEMORY ${color}${hr 2}${font}
+ ${color}Total RAM: ${color3}$memmax ${alignr} ${color}Total Swap: ${color3}$swapmax
+ ${color}RAM ${color3}$mem / ${memperc}%${color} ${alignr}Swap: ${color3}$swap / $swapperc %${color}
+${goto 10}${memgraph 50,150 000000 FFBF00}${goto 170}${color 00FF00}${execgraph "free | grep Swap | awk '{print $3/$2 * 100.0}'" 000000 00FF00}
+
+#-----------------------Processes & Load information-----------------------
+${font Good Times:size=12}${color Tan1}PROCESSES & LOAD ${color}${hr 2}${font}
+ ${color}Average Load: ${color3}${loadavg 1}
+#${running_processes} ${running_threads} ${processes}
+${hr 1}${font}
+${color lightgrey}${font Futurist Fixed-width:size=10:bold}${color7}${offset 5}PROCESS          CPU${alignr}   MEMORY         ${offset -5}PID
+${voffset -10}${color0}${hr 1}${font}${color}${font monofur:size=11}
+${voffset -3}#
+${color3}${offset 5}${top name 1} ${alignr}${top cpu 1}%      ${top mem_res 1}     ${alignr}${offset -5}${top pid 1}
+${offset 5}${top name 2} ${alignr}${top cpu 2}%      ${top mem_res 2}     ${alignr}${offset -5}${top pid 2}
+${offset 5}${top name 3} ${alignr}${top cpu 3}%      ${top mem_res 3}     ${alignr}${offset -5}${top pid 3}
+${offset 5}${top name 4} ${alignr}${top cpu 4}%      ${top mem_res 4}     ${alignr}${offset -5}${top pid 4}
+${offset 5}${top name 5} ${alignr}${top cpu 5}%      ${top mem_res 5}     ${alignr}${offset -5}${top pid 5}
+
+#-----------------------Network-----------------------
+${font Good Times:size=12}${color Tan1}NETWORK ${color}${hr 2}${font}
+ ${if_up wlp0s18f2u4}Wireless: ${color3} wlp0s18f2u4${color} ${alignr}${goto 180}${color2}Wired: ${color3} enp3s0${color} 
+ IP: ${color3}${addr wlp0s18f2u4} ${alignr}${goto 180}${color}IP: ${color3}${addr enp3s0}
+ ${color2}TX: ${color3}${upspeed wlp0s18f2u4}/${totalup wlp0s18f2u4}${color0} ${alignr}${goto 180}${color2}TX: ${color3}${upspeed enp3s0}/${color3}${totalup enp3s0}${color0}
+ ${color2}RX: ${color3}${downspeed wlp0s18f2u4}/${color3}${totaldown wlp0s18f2u4}${alignr}${goto 180}${color2}RX: ${color3}${downspeed enp3s0}/${color3}${totaldown enp3s0}
+${goto 10}${upspeedgraph wlp0s18f2u4  25,70 000000 FFBF00}${goto 90}${downspeedgraph wlp0s18f2u4 25,70 000000 00FF00}${goto 170}${upspeedgraph enp3s0  25,70 000000 3d06f0}${goto 250}${downspeedgraph enp3s0 25,70 000000 f94508}$
+
+#-----------------------GFX-----------------------
+${font Good Times:size=12}${color Tan1}GPU ${color}${hr 2}${font}
+${execi 36000 neofetch | grep "GPU"  | cut -c35-57}
+ ${color lightgrey}GPU temp: ${color3}${nvidia temp}${font} °C 
+ ${color lightgrey}GPU freq: ${color3}${nvidia gpufreq}${font} MHz  ${alignr}${color lightgrey}Mem freq: ${color3}${nvidia memfreq}${font} MHz
+
+# ${color}Power: ${color3}${execi 5 sensors | grep "power1:" | cut -d ":" -f2 | cut -c7-14}
+#${goto 10}${execgraph "sensors | grep power1: | cut -d : -f2 | cut -c7-14" 000000 FFBF00}
