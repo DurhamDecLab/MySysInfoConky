@@ -4,3 +4,5 @@ Conky with CPU, RAM, DISK, GPU monitors. Originally based on this: https://gitla
 Copy to ~/.conky, invoke with "conky -b -q -c ~/.conky/MySysInfoConky/MySysInfoConky4" for four CPUs, I've included versions for 1,2,3 or 4.
 
 You'll almost certainly have to change some things to suit your system, I've got an old K10 AMD board with ATK0110 sensors and an Nvidia card running closed-source drivers so tweak as you need. You should be able to drop a different distro logo into the folder to suit you, if you are so foolish as to not use Gentoo!
+
+![Screenshot_2022-01-18_00-08-58](https://user-images.githubusercontent.com/46998441/149849912-2a1794a4-c63e-495f-8681-6cc3398fdff5.png)
